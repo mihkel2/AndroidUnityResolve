@@ -14,6 +14,8 @@ sneakyevil base api
 
 
 # Basic coduementation
+//find objects ofalltype
+std::vector<void*> name = Resolver::FindObjectsOfType<void*>("");
 
   
     Resolver::SetFieldValue<T>(instance, class, "namespace", float);
