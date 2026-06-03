@@ -1,40 +1,41 @@
+IL2Type-resolve
 
-The il2cpp resolver I made originally made to mod counter critical and became a full time project :D
+A lightweight IL2CPP resolver orginal made for modding Counter Critical now a full project :D
 
+Works well when paired with Unity wrappers.
 
+Contribution / Credits
 
-works well when paired with unity wrappers
+* Sneakyevil — Base API
 
+Basic Documentation
 
+Classes
+Il2CppClass* g_class = nullptr;
+// Or
+Il2CppClass* Class = Resolver::GetClass("", "", "");
 
-contubition
-sneakyevil base api
-
-
-![](IMG_0939.gif)
-
-# Basic duementation
-
-Il2cppClass* g_class = Nullptr;
-Or 
-Il2cppClass* Class = Resolver::GetClass("","",n"")
+std::vector<void*> objects = Resolver::FindObjectsOfType<void*>("");
 
 
-std::vector<void*> name = Resolver::FindObjectsOfType<void*>("");
-
-  
-    Resolver::SetFieldValue<T>(instance, class, "namespace", float);
-
-   
-    Resolver::GetMethod(cls, "",0);
+Resolver::SetFieldValue<T>(instance, Class, "FieldName", value);
 
 
-   
-    static uintptr_t addMoneyPtr = Resolver::GetMethod(class, "Name", 1); // arg
+
+Resolver::GetMethod(Class, "MethodName", 0);
 
 
-    Resolver::CallMethod<void>(addMoneyPtr, instance, 5000);
 
-    all of this is the same with the static stuff too
+static uintptr_t addMoneyPtr =
+    Resolver::GetMethod(Class, "AddMoney", 1); // argument count
 
-}
+
+Resolver::CallMethod<void>(addMoneyPtr, instance, 5000);
+
+static methods are the same btw :)
+
+Mod Example
+
+Il2CppClass* playerClass =
+    Resolver::GetClass("", "Player", "PlayerData");
+Resolver::SetFieldValue<int>(playerInstance, playerClass, "coins", 9999);
