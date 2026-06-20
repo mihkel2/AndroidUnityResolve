@@ -1,106 +1,213 @@
 UnityResolve
 
-A lightweight Unity resolver orginal made for modding Counter Critical now a full project :D
+A lightweight Unity resolver originally created for modding Counter Critical, now expanded into a full-featured project.
 
-Works well when paired with Unity wrappers.
+UnityResolve works especially well when paired with Unity wrapper libraries, providing easy access to classes, methods, fields, GameObjects, components, transforms, animations, rendering utilities, and more.
 
-# video showcase / what ive done before
-![](IMG_0939.gif)
+Video Showcase
 
+See UnityResolve in action:
 
-Contribution / Credits
+[]()
+⸻
+
+Credits
 
 * Sneakyevil — Base API
+
+⸻
 
 Basic Documentation
 
 Classes
+
 Il2CppClass* g_class = nullptr;
-// Or
+// Or resolve a class directly
 Il2CppClass* Class = Resolver::GetClass("", "", "");
 
-std::vector<void*> objects = Resolver::FindObjectsOfType<void*>("");
+⸻
 
+Finding Objects
 
-Resolver::SetFieldValue<T>(instance, Class, "FieldName", value);
+std::vector<void*> objects =
+    Resolver::FindObjectsOfType<void*>("");
 
+⸻
 
+Fields
 
-Resolver::GetMethod(Class, "MethodName", 0);
+Set Field Value
 
+Resolver::SetFieldValue<T>(
+    instance,
+    Class,
+    "FieldName",
+    value
+);
 
+⸻
+
+Methods
+
+Resolve Method
+
+Resolver::GetMethod(
+    Class,
+    "MethodName",
+    0
+);
+
+Resolve Method Pointer
 
 static uintptr_t addMoneyPtr =
-    Resolver::GetMethod(Class, "AddMoney", 1); // argument count
+    Resolver::GetMethod(
+        Class,
+        "AddMoney",
+        1 // Argument count
+    );
 
+Call Method
 
-Resolver::CallMethod<void>(addMoneyPtr, instance, 5000);
+Resolver::CallMethod<void>(
+    addMoneyPtr,
+    instance,
+    5000
+);
 
-static methods are the same btw :)
+Static methods are resolved and called the same way.
 
-Mod Example
+⸻
+
+Example Mod
 
 Il2CppClass* playerClass =
-    Resolver::GetClass("", "Player", "PlayerData");
-Resolver::SetFieldValue<int>(playerInstance, playerClass, "coins", 9999);
+    Resolver::GetClass(
+        "",
+        "Player",
+        "PlayerData"
+    );
+Resolver::SetFieldValue<int>(
+    playerInstance,
+    playerClass,
+    "coins",
+    9999
+);
 
+⸻
 
+Features
 
+With the introduction of GameObject, Bone, Mesh, Audio, Animation, and Rendering utilities, UnityResolve has grown far beyond a simple class resolver.
 
-with the new introduction of Gameobjects,Bone and mesh resolving and audios ⚙️ 
+Animation
 
+Get Runtime Animator Controller
 
-heres some examples
+Animator_GetRuntimeAnimatorController(
+    animator
+);
 
+Returns an Il2CppObject* containing the animator’s runtime controller.
 
+Get Animation Clip Names
 
-Animation 
+Animator_GetClipNames(
+    animator
+);
 
+Returns all clip names associated with the animator.
 
+Child Component Resolution
 
-Also have runtime animator contorllers 
-Animator_GetRuntimeAnimatorController()Il2cppobject,animator
+UnityResolve can also resolve components through child objects and transform hierarchies.
 
+Documentation for this system will be expanded in the future.
 
-Animator_GetClioNames(il2cppobject* animtor)
-
-we alwo fan resolve compnents by children ill need to get more into this a different time its a little more complicated
-
-
+⸻
 
 Rendering
 
+World To Screen
 
+WorldToScreen(
+    worldPos,
+    screenPos,
+    matrix
+);
 
-WorldToScreen(vector3,worldpos,Vector3&,screenpos,float matrix)
+Convert a world position into screen coordinates.
 
+Example:
 
+Vector3 screenPos;
+if (WorldToScreen(
+        playerPosition,
+        screenPos,
+        viewMatrix))
+{
+    // Draw ESP
+}
 
+⸻
 
+Components
 
+Get Component By Name
 
-component
+il2cppGameObject* component =
+    Resolver::GameObject_GetComponentByName(
+        gameObject,
+        "SkinnedMeshRenderer"
+    );
 
+⸻
 
-il2cppGameObject* smr Resolver::GameObject_GetComponentByName()
+Camera
 
-Camera_GetMain()
+Get Main Camera
 
+Camera_GetMain();
 
+⸻
 
-// GameObjects
-il2cppObject* PlayerGo = Resolver::GameObject_Find("") // find GO
+GameObjects
 
+Find GameObject
 
+il2cppObject* player =
+    Resolver::GameObject_Find(
+        "Player"
+    );
 
+⸻
 
-//transforms
+Transforms
 
-Transforms also come with the vector3 header so if your looking to get a players world pos youd call
-trans = Resolver::Transform_GetTransform(playergo)
-then resolving positions is nealry the same
+Get Transform
 
+void* transform =
+    Resolver::Transform_GetTransform(
+        player
+    );
 
-you also have the other not as useful stuff
-Transform_SetLocalScale(void transform, Vector,scale)
-Transform_GetParent(void* transform)
+Get Position
+
+Vector3 position =
+    Resolver::Transform_GetPosition(
+        transform
+    );
+
+Set Local Scale
+
+Resolver::Transform_SetLocalScale(
+    transform,
+    scale
+);
+
+Get Parent
+
+void* parent =
+    Resolver::Transform_GetParent(
+        transform
+    );
+
